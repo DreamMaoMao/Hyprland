@@ -13,6 +13,7 @@ class CPluginSystem;
 struct SKeybind {
     std::string key          = "";
     uint32_t    keycode      = 0;
+    bool        catchAll     = false;
     uint32_t    modmask      = 0;
     std::string handler      = "";
     std::string arg          = "";
@@ -27,6 +28,12 @@ struct SKeybind {
 
     // DO NOT INITIALIZE
     bool shadowed = false;
+};
+
+struct SParsedKey {
+    std::string key      = "";
+    uint32_t    keycode  = 0;
+    bool        catchAll = false;
 };
 
 enum eFocusWindowMode {
@@ -57,7 +64,7 @@ class CKeybindManager {
     void                                                              onSwitchOffEvent(const std::string&);
 
     void                                                              addKeybind(SKeybind);
-    void                                                              removeKeybind(uint32_t, const std::string&);
+    void                                                              removeKeybind(uint32_t, const SParsedKey&);
     uint32_t                                                          stringToModMask(std::string);
     uint32_t                                                          keycodeToModifier(xkb_keycode_t);
     void                                                              clearKeybinds();
